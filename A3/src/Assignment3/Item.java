@@ -2,16 +2,23 @@ package Assignment3;
 
 import java.util.ArrayList;
 
-public class Item 
+public class Item extends Driver
 {
 	// Operation - category - name - price - quantity - weight - option1 - option2
 //Declare variables for this class. Think about its type: public, protected or private?
-	String operation;
-	String category;
-	String name;
-	String price;
-	String quantity;
-	String weight;
+	protected String name1;
+	protected Double price1;
+	protected Double quantity1;
+	protected Double weight1;
+	protected Double salestax1;
+	protected Double shipping1;
+	
+	Item(String name, Double price, Double quantity, Double weight){
+		name1 = name;
+		price1 = price;
+		quantity1 = quantity;
+		weight1 = weight;
+	}
 	
 	
 	
