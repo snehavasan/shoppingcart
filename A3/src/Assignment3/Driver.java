@@ -8,12 +8,14 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.text.DecimalFormat;
 
+
 public class Driver 
 	{
-	ArrayList<Item> shopcart = new ArrayList<Item>();
 
+	ArrayList<Item> shopcart = new ArrayList<Item>();
 	  public static void main(String[] args) 
 	  {
+
 			if (args.length != 1) 
 			{
 				System.err.println ("Error: Incorrect number of command line arguments");
@@ -79,6 +81,7 @@ public class Driver
 			String FNF = null;
 			String name = null;
 			int size = array.length;
+			int cart_length = 0;
 			//Check for correct number of arguments
 			if (size <= 8){
 				
@@ -90,8 +93,7 @@ public class Driver
 				if (operation.matches("insert")){
 					name = array[2];
 					String category = array[1].toLowerCase();
-					FNF = array[6].toUpperCase(); // Fragile/non-fragile or Perishable/non-perishable
-					state = array[7].toUpperCase(); // US state
+					
 					//Price conversion to dollar amount
 					DecimalFormat twospaces = new DecimalFormat("0.00");
 					Double price1 = Double.parseDouble(array[3]);
@@ -122,34 +124,51 @@ public class Driver
 					
 					// Insert Clothing
 					if (category.matches("clothing")){
-						if (size != 0){
+						if (size > 6){
 							output = "Input value for clothing contains optional fields";
 							break;
 						}
 						else {
 							Item product = new Clothing(name,price,quantity,weight);
 							shopcart.add(product);
+							output = "Added "+quantity+" "+name+" into the shopping cart";
+							break;
 						}
 					}
 					
 					// Insert Electronics
 					else if (category.matches("electronics")){
-						if (FNF.contains("F") || FNF.contains("NF")){
-							Item product = new Electronics(name,price,quantity,weight, FNF, state);
-							shopcart.add(product);
+						FNF = array[6].toUpperCase(); // Fragile/non-fragile or Perishable/non-perishable
+						state = array[7].toUpperCase(); // US state
+						state = state.toUpperCase();
+						String all_states = "AL AS AR CA NM TX VA AZ AK CO CT DE DC FL GA GU HI ID IL IN IA KS KY LA ME MD MH MH MA MI FM MN MS MO MT NE NV NH NJ NY NC ND MP OH OK OR PW PA PR RI SC SD TN UT VT VI WA WV WI WY";
+						if (all_states.contains(state)){
+							if (FNF.contains("F") || FNF.contains("NF")){
+								Item product = new Electronics(name,price,quantity,weight, FNF, state);
+								shopcart.add(product);
+								output = "Added "+quantity+" "+name+" into the shopping cart";
+								break;
+							}
+							else {
+								output = "Input value for optional field 1 is invalid";
+								break;
+							}
 						}
 						else {
-							output = "Input value for optional field 1 is invalid";
-							break;
+							output = "Invalid US state entered in the input";
 						}
 						
 					}
 					
 					// Insert Grocery
 					else if (category.matches("groceries")){
+						FNF = array[6].toUpperCase(); // Fragile/non-fragile or Perishable/non-perishable
 						if (FNF.contains("P") || FNF.contains("NP")){
 							Item product = new Grocery(name,price,quantity,weight, FNF);
 							shopcart.add(product);
+							output = "Added "+quantity+" "+name+" into the shopping cart";
+							break;
+							
 						}
 						else {
 							output = "Input value for optional field 1 is invalid";
@@ -161,24 +180,17 @@ public class Driver
 						output = "Input value for category is invalid";
 						break;
 					}
-					Collections.sort(shopcart, new Comparator<Item>(){
-						@Override
-						public int compare(Item first1, Item first2){
-							String name3 = first1.name1.toLowerCase();
-							String name4 = first2.name1.toLowerCase();
-							return name3.compareTo(name4);
-						}
-					});
+					// Sorting the items in Array in ascending order
 				}
 				
 				// Search operation
 				else if (operation.matches("search")){
 					if (size == 2){
-						int cart_length = shopcart.size();
+						cart_length = shopcart.size();
 						name = array[1];
 						for (int j =0; j<cart_length; j++){
 							String namecheck = shopcart.get(j).getName1();
-							if (namecheck == name){
+							if (namecheck.matches(name)){
 								quantity = quantity + shopcart.get(j).getQuantity1();
 							}
 							
@@ -194,14 +206,79 @@ public class Driver
 				}
 				
 				
-					
+				// Delete operation	
 				else if (operation.matches("delete")){
+					if (size == 2){
+						cart_length = shopcart.size();
+						name = array[1];
+						int zero = 0;
+						int k = cart_length - 1;
+						while (k>-1){
+							String namecheck = shopcart.get(k).getName1();
+							if (namecheck.matches(name)){
+								quantity = quantity + shopcart.get(k).getQuantity1();
+								shopcart.remove(k);
+							}
+							k--;
+						}
+						output = "The quantity of "+name+" deleted from cart is "+quantity+"";
+					}
+					else {
+						output = "Input is invalid";
+					}
 					
 				}
+				
+				// Update operation
 				else if (operation.matches("update")){
+					if (size == 3){
+						boolean present = false;
+						cart_length = shopcart.size();
+						name = array[1];
+						// Whole number check
+						String pattern = "[0-9]*";
+						String quantity1 = array[2];
+						boolean quantmatch = Pattern.matches(pattern , quantity1);
+						if (quantmatch){
+						quantity = Double.parseDouble(array[2]);
+						}
+						else {
+							output = "Input value for quantity is negative or not a whole number";
+							break;
+						}
+						for (int l =0; l<cart_length;l++){
+							String namecheck = shopcart.get(l).getName1();
+							if (namecheck.contains(name)){
+								shopcart.get(l).setQuantity1(quantity);
+								quantity = shopcart.get(l).getQuantity1();
+								output = "Update complete. Now the cart has "+quantity+" "+name+"";
+								present = true;
+								break;
+							}
+						}
+						if (!present){
+							output = "Update cannot be completed because "+name+" does not exist in the cart";
+						}
+						break;
+						
+					}
+					else {
+						
+					}
+
+
 					
 				}
 				else if (operation.matches("print")){
+					Collections.sort(shopcart, new Comparator<Item>(){
+						@Override
+						public int compare(Item first1, Item first2){
+							String name3 = first1.name1.toLowerCase();
+							String name4 = first2.name1.toLowerCase();
+							return name3.compareTo(name4);
+						}
+					});
+					
 					
 				}
 				else {
