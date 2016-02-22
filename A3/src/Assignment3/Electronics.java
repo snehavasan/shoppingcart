@@ -5,23 +5,20 @@ public class Electronics extends Item
 
 	Electronics(String name, Double price, Double quantity, Double weight, String FNF , String state){
 		super (name,price,quantity,weight);
-		String FNF1 = FNF;
-		String state1 = state;
-		if (FNF1.contains("F")){
-			//calculate price with premium shipping and update to shipping cost
-			if (state1.contains("NM") || state1.contains("TX") || state1.contains("VA")
-			|| state1.contains("AZ") || state1.contains("AK")){
+		if (FNF.contains("F")){
+			//calculate price with premium shipping and update to shipping cost and final price
+			if (state.contains("NM") || state.contains("TX") || state.contains("VA")
+			|| state.contains("AZ") || state.contains("AK")){
 				
 				//No sales tax
 				
 			}
 			else {
-				//asldkjasd
-				//implement 10% sales tax
+				//implement 10% sales tax and add to final price in item
 			}
 		}
 		else {
-			//calculate price with regular shipping and update to shipping cost
+			//calculate price with regular shipping and update to shipping cost and final price
 		}
 	}
 
