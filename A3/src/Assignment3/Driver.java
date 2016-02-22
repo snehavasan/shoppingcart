@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 
 public class Driver 
@@ -70,6 +72,45 @@ public class Driver
 		// Process the strings in this 
 		public String process (String inputString){
 			String output = new String(inputString);
+			String[] array = inputString.split(" ");
+			int size = array.length;
+			// Operation - category - name - price - quantity - weight - option1 - option2
+			for (int i = 0; i<size; i++){
+				String operation = array[0].toLowerCase();
+				if (operation.matches("insert")){
+					String category = array[1].toLowerCase();
+					if (category.matches("clothing")){
+						
+					}
+					else if (category.matches("electronics")){
+						
+					}
+					else if (category.matches("groceries")){
+						
+					}
+					else { System.out.println("Inlvaid Input");}
+				}
+				else if (operation.matches("search")){
+					
+				}
+				else if (operation.matches("delete")){
+					
+				}
+				else if (operation.matches("update")){
+					
+				}
+				else if (operation.matches("print")){
+					
+				}
+				else {
+					System.out.println("Invalid Input");
+				}
+			}
+			
+
+			
+			
+			
 			return output;
 			
 			
