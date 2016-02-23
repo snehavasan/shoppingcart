@@ -211,7 +211,6 @@ public class Driver
 					if (size == 2){
 						cart_length = shopcart.size();
 						name = array[1];
-						int zero = 0;
 						int k = cart_length - 1;
 						while (k>-1){
 							String namecheck = shopcart.get(k).getName1();
@@ -270,6 +269,9 @@ public class Driver
 					
 				}
 				else if (operation.matches("print")){
+					Float printfinprice = (float) 0;
+					output = null;
+					//sorting of the arraylist
 					Collections.sort(shopcart, new Comparator<Item>(){
 						@Override
 						public int compare(Item first1, Item first2){
@@ -278,8 +280,20 @@ public class Driver
 							return name3.compareTo(name4);
 						}
 					});
-					
-					
+					cart_length = shopcart.size();
+					for (int m = 0; m < cart_length; m++){
+						String printname = shopcart.get(m).getName1();
+						Double printprice = shopcart.get(m).getPrice1();
+						Double printquantity = shopcart.get(m).getQuantity1();
+						Double printweight = shopcart.get(m).getWeight1();
+						Double printstax = shopcart.get(m).getSalestax1();
+						Double printship = shopcart.get(m).getShipping1();
+						printfinprice = printfinprice + shopcart.get(m).getFinalprice1();
+						output = output + "The shopping cart contains "+printname+" for "+printprice+" with "+printquantity+" items.\n"
+								+ "The total weight of this item is "+printweight+". Sales tax is "+printstax+" and total shipping cost is "+printship+".\n";									
+					}
+					output = output + "Total cost of the shopping cart is "+printfinprice+".";
+					break;					
 				}
 				else {
 					output = "Invalid operation";
@@ -290,9 +304,7 @@ public class Driver
 			else {
 				output = "Invalid Input";
 			}	
-			
-			
-			
+
 			return output;
 			
 			

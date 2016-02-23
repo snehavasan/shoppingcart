@@ -4,6 +4,7 @@ public class Clothing extends Item
 {
 	Clothing(String name, Double price, Double quantity, Double weight){
 		super (name,price,quantity,weight);
+		price1 = ((price) * (quantity)); // price adjustment per item
 		//implement tax and regular shipping cost and add to final cost;
 	}
 

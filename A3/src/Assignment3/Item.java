@@ -12,7 +12,7 @@ public class Item extends Driver
 	protected Double weight1;
 	protected Double salestax1;
 	protected Double shipping1;
-	protected float finalprice;
+	protected float finalprice1;
 	
 	Item(String name, Double price, Double quantity, Double weight){
 		name1 = name;
@@ -87,8 +87,8 @@ public class Item extends Driver
 	/**
 	 * @return the finalprice
 	 */
-	public float getFinalprice() {
-		return finalprice;
+	public float getFinalprice1() {
+		return finalprice1;
 	}
 
 
@@ -157,8 +157,8 @@ public class Item extends Driver
 	/**
 	 * @param finalprice the finalprice to set
 	 */
-	public void setFinalprice(float finalprice) {
-		this.finalprice = finalprice;
+	public void setFinalprice1(float finalprice) {
+		this.finalprice1 = finalprice;
 	}
 
 

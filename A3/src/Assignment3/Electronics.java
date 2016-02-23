@@ -5,6 +5,7 @@ public class Electronics extends Item
 
 	Electronics(String name, Double price, Double quantity, Double weight, String FNF , String state){
 		super (name,price,quantity,weight);
+		price1 = ((price) * (quantity)); // price adjustment per item
 		if (FNF.contains("F")){
 			//calculate price with premium shipping and update to shipping cost and final price
 			if (state.contains("NM") || state.contains("TX") || state.contains("VA")

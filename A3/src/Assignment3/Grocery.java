@@ -3,6 +3,7 @@ package Assignment3;
 public class Grocery extends Item {
 	Grocery(String name, Double price, Double quantity, Double weight, String FNF){
 		super (name,price,quantity,weight);
+		price1 = ((price) * (quantity)); // price adjustment per item
 		if (FNF.contains("P")){
 			//implement sales tax
 			//calculate price with premium shipping and update to shipping cost and final price
